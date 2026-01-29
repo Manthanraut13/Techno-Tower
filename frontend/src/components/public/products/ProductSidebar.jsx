@@ -17,11 +17,11 @@ const ProductSidebar = () => {
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-background-surface dark:hover:bg-white/5 transition-colors -ml-2">
                         <input className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4" type="checkbox" />
-                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Street Light Poles</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">High Mast Poles</span>
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-background-surface dark:hover:bg-white/5 transition-colors -ml-2">
                         <input className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4" type="checkbox" />
-                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">High Mast Poles</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Street Light Poles</span>
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-background-surface dark:hover:bg-white/5 transition-colors -ml-2">
                         <input className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4" type="checkbox" />
@@ -29,7 +29,11 @@ const ProductSidebar = () => {
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-background-surface dark:hover:bg-white/5 transition-colors -ml-2">
                         <input className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4" type="checkbox" />
-                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Smart Poles</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Mobile Lighting</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-background-surface dark:hover:bg-white/5 transition-colors -ml-2">
+                        <input className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4" type="checkbox" />
+                        <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Inflatable Lighting</span>
                     </label>
                 </div>
             </div>

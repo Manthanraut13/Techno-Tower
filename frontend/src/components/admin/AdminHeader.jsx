@@ -1,61 +1,54 @@
-import { Search, Bell, TowerControl } from 'lucide-react';
+import { Search, Bell, Menu, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AdminHeader = () => {
     return (
-        <header className="sticky top-0 z-50 w-full bg-white/95 dark:bg-gray-950/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-            <div className="px-4 md:px-8 py-3 flex items-center justify-between max-w-[1600px] mx-auto">
-                <div className="flex items-center gap-10">
-                    <Link to="/admin" className="flex items-center gap-3 group cursor-pointer">
-                        <div className="flex items-center justify-center size-9 rounded-lg bg-gray-800 text-primary transition-transform duration-500 group-hover:rotate-180">
-                            <TowerControl size={24} />
-                        </div>
-                        <div>
-                            <h1 className="text-lg font-bold tracking-tight text-text-main dark:text-white leading-none">Techno Tower</h1>
-                            <span className="text-[10px] uppercase font-bold text-text-muted tracking-wider">Admin Portal</span>
-                        </div>
-                    </Link>
-                    <nav className="hidden md:flex items-center gap-1 bg-gray-100/50 dark:bg-gray-800/50 p-1 rounded-lg">
-                        <Link to="/admin" className="px-4 py-1.5 rounded-md bg-white dark:bg-gray-700 shadow-sm text-sm font-semibold text-text-main dark:text-white transition-all">
-                            Overview
-                        </Link>
-                        <Link to="/admin/dealers" className="px-4 py-1.5 rounded-md hover:bg-gray-200/50 dark:hover:bg-gray-700/50 text-sm font-medium text-text-muted hover:text-text-main dark:text-gray-300 transition-all">
-                            Dealers
-                        </Link>
-                        <Link to="#" className="px-4 py-1.5 rounded-md hover:bg-gray-200/50 dark:hover:bg-gray-700/50 text-sm font-medium text-text-muted hover:text-text-main dark:text-gray-300 transition-all">
-                            Enquiries
-                        </Link>
-                        <Link to="#" className="px-4 py-1.5 rounded-md hover:bg-gray-200/50 dark:hover:bg-gray-700/50 text-sm font-medium text-text-muted hover:text-text-main dark:text-gray-300 transition-all">
-                            Projects
-                        </Link>
-                        <Link to="#" className="px-4 py-1.5 rounded-md hover:bg-gray-200/50 dark:hover:bg-gray-700/50 text-sm font-medium text-text-muted hover:text-text-main dark:text-gray-300 transition-all">
-                            Tenders
-                        </Link>
-                    </nav>
+        <header className="sticky top-0 z-20 w-full bg-white/80 dark:bg-[#1c160d]/80 backdrop-blur-md border-b border-gray-200 dark:border-[#3e3223]">
+            <div className="px-6 md:px-10 py-4 flex items-center justify-between">
+                {/* Left Side: Page Context (Optional/Responsive Menu) */}
+                <div className="flex items-center gap-4">
+                    <button className="lg:hidden p-2 text-text-muted hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors">
+                        <Menu size={20} />
+                    </button>
+                    <div className="hidden sm:block">
+                        <h2 className="text-sm font-bold text-text-main dark:text-gray-200">System Control</h2>
+                        <p className="text-[10px] text-text-muted uppercase tracking-widest font-medium">Real-time Infrastructure Monitoring</p>
+                    </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <div className="relative hidden sm:block">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                            <Search size={18} />
+                {/* Right Side: Tools & Profile */}
+                <div className="flex items-center gap-2 md:gap-4">
+                    {/* Search Bar */}
+                    <div className="relative hidden md:block group">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                            <Search size={16} />
                         </span>
                         <input
-                            className="pl-9 pr-4 py-1.5 text-sm bg-gray-50 border-gray-200 rounded-md focus:border-primary focus:ring-primary/20 w-64 transition-all outline-none"
-                            placeholder="Search projects, IDs..."
+                            className="pl-9 pr-4 py-2 text-xs bg-gray-50 dark:bg-[#2d2418] border border-gray-200 dark:border-[#3e3223] rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/10 w-64 lg:w-80 transition-all outline-none text-text-main dark:text-white"
+                            placeholder="Command search (Ctrl + K)..."
                             type="text"
                         />
                     </div>
-                    <button className="relative p-2 text-text-muted hover:text-text-main transition-colors rounded-full hover:bg-gray-100">
-                        <Bell size={22} />
-                        <span className="absolute top-1.5 right-2 size-2 bg-red-500 rounded-full border border-white"></span>
-                    </button>
-                    <div className="h-8 w-[1px] bg-gray-200 dark:bg-gray-700 mx-1"></div>
-                    <button className="flex items-center gap-3 pl-2 pr-1 py-1 rounded-full hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200">
-                        <div className="text-right hidden md:block">
-                            <p className="text-xs font-bold text-text-main">Admin User</p>
-                            <p className="text-[10px] text-text-muted">Super Admin</p>
+
+                    <div className="flex items-center gap-1">
+                        <button className="p-2.5 text-text-muted hover:text-primary transition-all rounded-xl hover:bg-primary/5 relative">
+                            <Bell size={18} />
+                            <span className="absolute top-2.5 right-2.5 size-1.5 bg-primary rounded-full ring-2 ring-white dark:ring-[#1c160d]"></span>
+                        </button>
+                        <button className="p-2.5 text-text-muted hover:text-text-main dark:hover:text-white transition-all rounded-xl hover:bg-gray-100 dark:hover:bg-white/5">
+                            <Settings size={18} />
+                        </button>
+                    </div>
+
+                    <div className="h-6 w-[1px] bg-gray-200 dark:bg-[#3e3223] mx-1"></div>
+
+                    {/* Quick Profile Mini */}
+                    <button className="flex items-center gap-3 p-1 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all border border-transparent hover:border-gray-200 dark:hover:border-[#3e3223]">
+                        <div className="text-right hidden sm:block">
+                            <p className="text-[11px] font-black text-text-main dark:text-white leading-none">Super Admin</p>
+                            <p className="text-[9px] text-green-500 font-bold uppercase tracking-tighter mt-1">Network Online</p>
                         </div>
-                        <div className="size-8 rounded-full bg-gray-800 text-white flex items-center justify-center text-xs font-bold border-2 border-primary">
+                        <div className="size-8 rounded-lg bg-gray-800 text-primary flex items-center justify-center text-[10px] font-black border border-primary/30 shadow-[0_0_10px_rgba(244,168,37,0.1)]">
                             AU
                         </div>
                     </button>

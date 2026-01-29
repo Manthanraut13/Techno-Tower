@@ -1,75 +1,63 @@
-import { Construction } from 'lucide-react';
+import { Construction, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const MilestoneItem = ({ code, title, phase, progress, color }) => (
+    <div className="flex flex-col gap-3 group">
+        <div className="flex justify-between items-end">
+            <div className="flex items-center gap-3">
+                <div className="size-9 rounded-lg bg-gray-100 dark:bg-[#1c160d] border border-gray-200 dark:border-[#3e3223] flex items-center justify-center text-text-main dark:text-primary font-black text-[10px] tracking-tighter">
+                    {code}
+                </div>
+                <div>
+                    <h4 className="text-xs font-black text-text-main dark:text-gray-200 uppercase tracking-tight">{title}</h4>
+                    <p className="text-[10px] text-text-muted dark:text-gray-500 font-bold uppercase tracking-widest mt-0.5">{phase}</p>
+                </div>
+            </div>
+            <span className="text-xs font-black text-primary font-mono">{progress}%</span>
+        </div>
+        <div className="w-full bg-gray-100 dark:bg-[#1c160d] rounded-full h-1.5 overflow-hidden">
+            <div
+                className={`h-full ${color || 'bg-primary'} shadow-[0_0_10px_rgba(244,168,37,0.3)] transition-all duration-1000 ease-out`}
+                style={{ width: `${progress}%` }}
+            ></div>
+        </div>
+    </div>
+);
 
 const ProjectMilestones = () => {
     return (
-        <div className="bg-white dark:bg-gray-950 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
-                <h3 className="font-bold text-lg text-text-main dark:text-white flex items-center gap-2">
+        <div className="bg-white dark:bg-[#2d2418] rounded-2xl border border-gray-100 dark:border-[#3e3223] shadow-sm overflow-hidden transition-all duration-300">
+            <div className="p-6 border-b border-gray-50 dark:border-[#3e3223] flex justify-between items-center bg-gray-50/30 dark:bg-white/5">
+                <h3 className="font-black text-sm text-text-main dark:text-white flex items-center gap-2 uppercase tracking-widest">
                     <Construction className="text-primary" size={20} />
-                    Project Milestones
+                    System Deployment
                 </h3>
-                <Link className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors" to="#">All Projects</Link>
+                <Link className="text-[10px] uppercase font-black text-text-muted hover:text-primary transition-colors flex items-center gap-1.5" to="/admin/projects">
+                    View Fleet
+                    <Layers size={12} />
+                </Link>
             </div>
-            <div className="p-6 grid gap-6">
-
-                {/* NH-44 */}
-                <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-3">
-                            <div className="size-8 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-main dark:text-gray-300 font-bold text-xs">NH</div>
-                            <div>
-                                <h4 className="text-sm font-bold text-text-main">NH-44 Highway Lighting</h4>
-                                <p className="text-xs text-text-muted">Phase 2: Installation</p>
-                            </div>
-                        </div>
-                        <span className="text-xs font-bold text-text-main">75%</span>
-                    </div>
-                    <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
-                        <div className="bg-primary h-2 rounded-full relative" style={{ width: '75%' }}>
-                            <div className="absolute right-0 -top-1 size-4 bg-white border-2 border-primary rounded-full shadow-sm"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Smart City */}
-                <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-3">
-                            <div className="size-8 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-main dark:text-gray-300 font-bold text-xs">SC</div>
-                            <div>
-                                <h4 className="text-sm font-bold text-text-main">Smart City Sensor Grid</h4>
-                                <p className="text-xs text-text-muted">Phase 1: Manufacturing</p>
-                            </div>
-                        </div>
-                        <span className="text-xs font-bold text-text-main">42%</span>
-                    </div>
-                    <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
-                        <div className="bg-gray-800 dark:bg-gray-600 h-2 rounded-full relative" style={{ width: '42%' }}>
-                            <div className="absolute right-0 -top-1 size-4 bg-white dark:bg-gray-900 border-2 border-gray-800 dark:border-gray-600 rounded-full shadow-sm"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Stadium */}
-                <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-3">
-                            <div className="size-8 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-main dark:text-gray-300 font-bold text-xs">ST</div>
-                            <div>
-                                <h4 className="text-sm font-bold text-text-main">Stadium Floodlights</h4>
-                                <p className="text-xs text-text-muted">Phase 3: Testing</p>
-                            </div>
-                        </div>
-                        <span className="text-xs font-bold text-text-main">90%</span>
-                    </div>
-                    <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full relative" style={{ width: '90%' }}>
-                            <div className="absolute right-0 -top-1 size-4 bg-white dark:bg-gray-900 border-2 border-green-600 rounded-full shadow-sm"></div>
-                        </div>
-                    </div>
-                </div>
-
+            <div className="p-8 space-y-8">
+                <MilestoneItem
+                    code="NH44"
+                    title="NH-44 Highway Lighting"
+                    phase="Infield Installation"
+                    progress={75}
+                />
+                <MilestoneItem
+                    code="SMCT"
+                    title="Smart City Sensor Grid"
+                    phase="Hardware Sync"
+                    progress={42}
+                    color="bg-gray-400"
+                />
+                <MilestoneItem
+                    code="STAD"
+                    title="Stadium Floodlights"
+                    phase="Optical Calibration"
+                    progress={90}
+                    color="bg-green-500"
+                />
             </div>
         </div>
     );

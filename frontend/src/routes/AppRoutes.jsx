@@ -13,6 +13,7 @@ import EnquiryInbox from '../pages/admin/EnquiryInbox';
 import ProductInventory from '../pages/admin/ProductInventory';
 import ProjectManagement from '../pages/admin/ProjectManagement';
 import TenderManagement from '../pages/admin/TenderManagement';
+import GalleryManagement from '../pages/admin/GalleryManagement';
 import Login from '../pages/auth/Login';
 
 import ForgotPassword from '../pages/auth/ForgotPassword';
@@ -52,9 +53,7 @@ const AppRoutes = () => {
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/tenders" element={<Tenders />} />
                 <Route path="/products" element={<Products />} />
-                <Route path="/product/smart-pole-t100" element={<ProductDetail />} />
-                {/* Dynamic route for future use */}
-                {/* <Route path="/products/:id" element={<ProductDetail />} /> */}
+                <Route path="/product/:slug" element={<ProductDetail />} />
             </Route>
 
             {/* Auth Routes */}
@@ -71,6 +70,7 @@ const AppRoutes = () => {
                 <Route path="products" element={<ProductInventory />} />
                 <Route path="projects" element={<ProjectManagement />} />
                 <Route path="tenders" element={<TenderManagement />} />
+                <Route path="gallery" element={<GalleryManagement />} />
                 <Route path="campaigns" element={<CampaignDashboard />} />
 
                 <Route path="campaigns/create" element={<CreateCampaign />} />

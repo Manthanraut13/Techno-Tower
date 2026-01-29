@@ -1,13 +1,13 @@
 
 import { CheckCircle, MoveVertical, Wind, Shield, Lightbulb, FileText, Download } from 'lucide-react';
 
-const ProductInfo = () => {
+const ProductInfo = ({ product }) => {
     return (
         <div className="flex flex-col justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <h1 className="text-3xl lg:text-4xl font-bold text-text-main dark:text-white tracking-tight mb-2">Smart City Light Pole T-100</h1>
+            <h1 className="text-3xl lg:text-4xl font-bold text-text-main dark:text-white tracking-tight mb-2">{product.title}</h1>
 
             <div className="flex items-center gap-2 mb-6">
-                <span className="text-sm font-medium text-text-muted dark:text-gray-400">SKU: TT-SC-100</span>
+                <span className="text-sm font-medium text-text-muted dark:text-gray-400">SKU: {product.sku}</span>
                 <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
                 <span className="flex items-center text-sm text-green-600 dark:text-green-400 font-medium">
                     <CheckCircle size={16} className="mr-1" /> In Stock (Made to Order)
@@ -15,7 +15,7 @@ const ProductInfo = () => {
             </div>
 
             <p className="text-base text-text-muted dark:text-gray-300 leading-relaxed mb-8">
-                The T-100 is a modular smart city infrastructure solution designed for urban adaptability. Featuring integrated IoT housing, high-tensile galvanized steel construction, and premium weather-resistant coating, it serves as the backbone for modern smart city networks including 5G, CCTV, and EV charging.
+                {product.description}
             </p>
 
             {/* Key Specs Grid */}
@@ -23,29 +23,29 @@ const ProductInfo = () => {
                 <div className="p-3 bg-white dark:bg-gray-900 rounded-lg border border-gray-100 dark:border-white/10 flex items-center gap-3">
                     <MoveVertical className="text-primary" size={24} />
                     <div>
-                        <p className="text-xs text-text-muted dark:text-gray-400">Height</p>
-                        <p className="font-bold text-sm text-text-main dark:text-white">6m - 12m</p>
+                        <p className="text-xs text-text-muted dark:text-gray-400">{product.category === 'Solar Lighting' ? 'Battery' : 'Height'}</p>
+                        <p className="font-bold text-sm text-text-main dark:text-white">{product.specs.height || product.specs.battery}</p>
                     </div>
                 </div>
                 <div className="p-3 bg-white dark:bg-gray-900 rounded-lg border border-gray-100 dark:border-white/10 flex items-center gap-3">
                     <Wind className="text-primary" size={24} />
                     <div>
-                        <p className="text-xs text-text-muted dark:text-gray-400">Wind Load</p>
-                        <p className="font-bold text-sm text-text-main dark:text-white">Up to 180 km/h</p>
+                        <p className="text-xs text-text-muted dark:text-gray-400">{product.specs.windLoad ? 'Wind Load' : 'Energy'}</p>
+                        <p className="font-bold text-sm text-text-main dark:text-white">{product.specs.windLoad || product.specs.energy}</p>
                     </div>
                 </div>
                 <div className="p-3 bg-white dark:bg-gray-900 rounded-lg border border-gray-100 dark:border-white/10 flex items-center gap-3">
                     <Shield className="text-primary" size={24} />
                     <div>
                         <p className="text-xs text-text-muted dark:text-gray-400">Material</p>
-                        <p className="font-bold text-sm text-text-main dark:text-white">Galvanized Steel</p>
+                        <p className="font-bold text-sm text-text-main dark:text-white">{product.specs.material || 'Standard Metal'}</p>
                     </div>
                 </div>
                 <div className="p-3 bg-white dark:bg-gray-900 rounded-lg border border-gray-100 dark:border-white/10 flex items-center gap-3">
                     <Lightbulb className="text-primary" size={24} />
                     <div>
-                        <p className="text-xs text-text-muted dark:text-gray-400">Lumens</p>
-                        <p className="font-bold text-sm text-text-main dark:text-white">12,000 lm</p>
+                        <p className="text-xs text-text-muted dark:text-gray-400">Application</p>
+                        <p className="font-bold text-sm text-text-main dark:text-white truncate" title={product.specs.application}>{product.specs.application}</p>
                     </div>
                 </div>
             </div>

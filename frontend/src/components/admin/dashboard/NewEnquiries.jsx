@@ -1,88 +1,58 @@
-import { MailWarning, MoreVertical } from 'lucide-react';
+import { MailWarning, MoreVertical, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const NewEnquiries = () => {
     return (
-        <div className="bg-white dark:bg-gray-950 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
-                <h3 className="font-bold text-lg text-text-main dark:text-white flex items-center gap-2">
+        <div className="bg-white dark:bg-[#2d2418] rounded-2xl border border-gray-100 dark:border-[#3e3223] shadow-sm overflow-hidden transition-all duration-300">
+            <div className="p-6 border-b border-gray-50 dark:border-[#3e3223] flex justify-between items-center bg-gray-50/30 dark:bg-white/5">
+                <h3 className="font-black text-sm text-text-main dark:text-white flex items-center gap-2 uppercase tracking-widest">
                     <MailWarning className="text-primary" size={20} />
-                    New Enquiries
+                    Active Enquiries
                 </h3>
-                <Link className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors" to="#">View All</Link>
+                <Link className="text-[10px] uppercase font-black text-primary hover:text-primary-dark transition-colors flex items-center gap-1.5" to="/admin/enquiries">
+                    Expand Inbox
+                    <ExternalLink size={12} />
+                </Link>
             </div>
             <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                    <thead className="bg-gray-50 dark:bg-gray-900 text-text-muted font-medium uppercase text-xs">
+                <table className="w-full text-xs text-left border-collapse">
+                    <thead className="bg-gray-100/50 dark:bg-[#1c160d] text-[10px] font-black text-text-muted dark:text-gray-500 uppercase tracking-widest">
                         <tr>
-                            <th className="px-6 py-4">Client / Company</th>
-                            <th className="px-6 py-4">Requirement</th>
+                            <th className="px-6 py-4">Stakeholder</th>
+                            <th className="px-6 py-4">Sector</th>
                             <th className="px-6 py-4">Status</th>
-                            <th className="px-6 py-4">Date</th>
                             <th className="px-6 py-4 text-right">Action</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                        <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                            <td className="px-6 py-4">
-                                <div className="font-bold text-text-main dark:text-white">City Municipal Corp</div>
-                                <div className="text-xs text-text-muted">Contact: Mr. Rajesh Kumar</div>
-                            </td>
-                            <td className="px-6 py-4">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold">
-                                    Smart Poles
-                                </span>
-                            </td>
-                            <td className="px-6 py-4">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 text-red-600 text-xs font-bold border border-red-100">
-                                    <span className="size-1.5 rounded-full bg-red-600 animate-pulse"></span> New
-                                </span>
-                            </td>
-                            <td className="px-6 py-4 text-text-muted">Oct 24, 2024</td>
-                            <td className="px-6 py-4 text-right">
-                                <button className="text-gray-400 hover:text-primary transition-colors"><MoreVertical size={20} /></button>
-                            </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                            <td className="px-6 py-4">
-                                <div className="font-bold text-text-main dark:text-white">Apex Builders Pvt Ltd</div>
-                                <div className="text-xs text-text-muted">Contact: Sarah Jenkins</div>
-                            </td>
-                            <td className="px-6 py-4">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 text-xs font-semibold">
-                                    High Mast
-                                </span>
-                            </td>
-                            <td className="px-6 py-4">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-yellow-50 text-yellow-700 text-xs font-bold border border-yellow-100">
-                                    In Review
-                                </span>
-                            </td>
-                            <td className="px-6 py-4 text-text-muted">Oct 23, 2024</td>
-                            <td className="px-6 py-4 text-right">
-                                <button className="text-gray-400 hover:text-primary transition-colors"><MoreVertical size={20} /></button>
-                            </td>
-                        </tr>
-                        <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                            <td className="px-6 py-4">
-                                <div className="font-bold text-text-main dark:text-white">Tech Park Ventures</div>
-                                <div className="text-xs text-text-muted">Contact: Admin Office</div>
-                            </td>
-                            <td className="px-6 py-4">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gray-100 text-gray-700 text-xs font-semibold">
-                                    Maintenance
-                                </span>
-                            </td>
-                            <td className="px-6 py-4">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold border border-green-100">
-                                    Quoted
-                                </span>
-                            </td>
-                            <td className="px-6 py-4 text-text-muted">Oct 22, 2024</td>
-                            <td className="px-6 py-4 text-right">
-                                <button className="text-gray-400 hover:text-primary transition-colors"><MoreVertical size={20} /></button>
-                            </td>
-                        </tr>
+                    <tbody className="divide-y divide-gray-50 dark:divide-[#3e3223]">
+                        {[
+                            { client: "City Municipal Corp", contact: "Rajesh Kumar", sector: "Smart Poles", status: "New", color: "red" },
+                            { client: "Apex Builders Pvt Ltd", contact: "Sarah Jenkins", sector: "High Mast", status: "In Review", color: "amber" },
+                            { client: "Tech Park Ventures", contact: "Admin Office", sector: "Maintenance", status: "Quoted", color: "green" }
+                        ].map((enquiry, idx) => (
+                            <tr key={idx} className="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group">
+                                <td className="px-6 py-5">
+                                    <div className="font-black text-text-main dark:text-white uppercase tracking-tight">{enquiry.client}</div>
+                                    <div className="text-[10px] text-text-muted mt-0.5">{enquiry.contact}</div>
+                                </td>
+                                <td className="px-6 py-5">
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-[#1c160d] text-text-main dark:text-gray-300 font-bold border border-gray-200 dark:border-[#3e3223]">
+                                        {enquiry.sector}
+                                    </span>
+                                </td>
+                                <td className="px-6 py-5">
+                                    <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-${enquiry.color}-500/10 text-${enquiry.color}-500 text-[10px] font-black uppercase tracking-tighter border border-${enquiry.color}-500/20`}>
+                                        <span className={`size-1 rounded-full bg-${enquiry.color}-500 ${enquiry.status === 'New' ? 'animate-pulse' : ''}`}></span>
+                                        {enquiry.status}
+                                    </span>
+                                </td>
+                                <td className="px-6 py-5 text-right">
+                                    <button className="p-2 text-gray-400 hover:text-primary transition-all rounded-lg hover:bg-primary/10">
+                                        <MoreVertical size={18} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

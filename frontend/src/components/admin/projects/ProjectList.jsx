@@ -1,8 +1,7 @@
-
-import { Search } from 'lucide-react';
+import { Search, SlidersHorizontal, ChevronLeft, ChevronRight, Hash } from 'lucide-react';
 import ProjectItem from './ProjectItem';
 
-const ProjectList = () => {
+const ProjectList = ({ onEdit }) => {
     const projects = [
         {
             id: 1,
@@ -43,36 +42,56 @@ const ProjectList = () => {
     ];
 
     return (
-        <div className="bg-white dark:bg-gray-950 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden animate-fade-in-up delay-200">
-            <div className="p-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-white/5 flex flex-wrap gap-4 justify-between items-center">
-                <div className="relative flex-1 min-w-[200px] max-w-sm">
-                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Search size={18} className="text-gray-400" />
-                    </span>
-                    <input className="w-full pl-9 py-2 rounded-lg border-gray-200 bg-white dark:bg-black/20 dark:border-gray-600 text-sm focus:border-primary focus:ring-primary" placeholder="Search projects..." type="text" />
+        <div className="bg-white dark:bg-[#2d2418] rounded-2xl border border-gray-100 dark:border-[#3e3223] shadow-sm overflow-hidden animate-fade-in-up">
+            <div className="p-6 border-b border-gray-50 dark:border-[#3e3223] bg-gray-50/30 dark:bg-white/5 flex flex-wrap gap-6 justify-between items-center">
+                <div className="relative flex-1 min-w-[280px] max-w-md">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
+                    <input
+                        className="w-full pl-12 pr-4 py-3 bg-white dark:bg-[#1c160d] border border-gray-200 dark:border-[#3e3223] rounded-xl text-xs font-bold text-text-main dark:text-white placeholder:text-gray-400 focus:border-primary transition-all outline-none"
+                        placeholder="SCAN VAULT FOR INSTANCES..."
+                        type="text"
+                    />
                 </div>
-                <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-text-muted dark:text-gray-500">Sort by:</span>
-                    <select className="text-sm border-none bg-transparent font-medium text-text-main focus:ring-0 p-0 pr-6 cursor-pointer dark:text-white">
-                        <option>Date Added (Newest)</option>
-                        <option>Alphabetical</option>
-                        <option>Status</option>
+
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 text-[10px] font-black text-text-muted dark:text-gray-500 uppercase tracking-widest">
+                        <SlidersHorizontal size={14} />
+                        <span>Sequence:</span>
+                    </div>
+                    <select className="bg-transparent text-xs font-black text-text-main dark:text-white uppercase tracking-widest outline-none cursor-pointer hover:text-primary transition-colors">
+                        <option>Deployment Log (Newest)</option>
+                        <option>Identifier A-Z</option>
+                        <option>Operational Status</option>
                     </select>
                 </div>
             </div>
-            <div className="divide-y divide-gray-100 dark:divide-gray-700">
+
+            <div className="divide-y divide-gray-50 dark:divide-[#3e3223]">
                 {projects.map(project => (
-                    <ProjectItem key={project.id} project={project} />
+                    <ProjectItem key={project.id} project={project} onEdit={onEdit} />
                 ))}
             </div>
-            <div className="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-white/5 flex items-center justify-between">
-                <span className="text-sm text-text-muted dark:text-gray-400">Showing 1 to 4 of 124 entries</span>
-                <div className="flex gap-2">
-                    <button className="px-3 py-1 rounded bg-white border border-gray-200 text-sm text-gray-600 hover:bg-gray-100 disabled:opacity-50 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300" disabled>Prev</button>
-                    <button className="px-3 py-1 rounded bg-primary text-text-main font-bold text-sm shadow-sm">1</button>
-                    <button className="px-3 py-1 rounded bg-white border border-gray-200 text-sm text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">2</button>
-                    <button className="px-3 py-1 rounded bg-white border border-gray-200 text-sm text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">3</button>
-                    <button className="px-3 py-1 rounded bg-white border border-gray-200 text-sm text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300">Next</button>
+
+            <div className="p-6 border-t border-gray-50 dark:border-[#3e3223] bg-gray-50/30 dark:bg-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text-muted dark:text-gray-500">
+                    <Hash size={14} className="text-primary" />
+                    <span>Mapping <span className="text-text-main dark:text-white">1 - 04</span> OF <span className="text-text-main dark:text-white">124</span> Total Instances</span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <button className="h-10 w-10 flex items-center justify-center rounded-xl border border-gray-200 dark:border-[#3e3223] bg-white dark:bg-[#1c160d] text-gray-400 hover:text-primary transition-all disabled:opacity-30" disabled>
+                        <ChevronLeft size={20} />
+                    </button>
+
+                    <div className="flex items-center gap-2 px-2 py-1 bg-gray-100 dark:bg-[#1c160d] rounded-xl border border-gray-200 dark:border-[#3e3223]">
+                        <button className="h-8 w-8 flex items-center justify-center rounded-lg bg-primary text-text-main font-black text-xs">1</button>
+                        <button className="h-8 w-8 flex items-center justify-center rounded-lg text-text-muted dark:text-gray-500 hover:text-primary transition-colors font-black text-xs">2</button>
+                        <button className="h-8 w-8 flex items-center justify-center rounded-lg text-text-muted dark:text-gray-500 hover:text-primary transition-colors font-black text-xs">3</button>
+                    </div>
+
+                    <button className="h-10 w-10 flex items-center justify-center rounded-xl border border-gray-200 dark:border-[#3e3223] bg-white dark:bg-[#1c160d] text-gray-400 hover:text-primary transition-all">
+                        <ChevronRight size={20} />
+                    </button>
                 </div>
             </div>
         </div>

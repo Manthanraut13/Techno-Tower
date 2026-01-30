@@ -1,18 +1,46 @@
 
+import { useEffect, useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from './ProductCard';
-
-import { products } from '../../../data/productsData';
+import api from '../../../services/api';
 
 const ProductGrid = () => {
-    // Derived data for display
-    const displayProducts = products.map(p => ({
-        ...p,
-        image: p.images[0].full,
-        specLabel: p.specs.height ? 'Height' : (p.specs.battery ? 'Battery' : 'Power'),
-        specValue: p.specs.height || p.specs.battery || p.specs.power,
-        link: `/product/${p.slug}`
-    }));
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchProducts = async () => {
+            try {
+                const res = await api.get('/products');
+                if (!isMounted) return;
+                const apiProducts = res.data || [];
+                const mapped = apiProducts.map((p) => ({
+                    ...p,
+                    image: p.images?.[0] || '',
+                    specLabel: p.specs?.height
+                        ? 'Height'
+                        : p.specs?.battery
+                        ? 'Battery'
+                        : 'Power',
+                    specValue: p.specs?.height || p.specs?.battery || p.specs?.power || '',
+                    link: `/product/${p.slug}`
+                }));
+                setProducts(mapped);
+                setError(null);
+            } catch (err) {
+                console.error('Failed to load products', err);
+                setError('Failed to load products. Please try again later.');
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+        fetchProducts();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     return (
         <div className="flex-1">
@@ -36,11 +64,21 @@ const ProductGrid = () => {
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {displayProducts.map(product => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
+            {loading && (
+                <div className="py-10 text-center text-gray-500 dark:text-gray-400">
+                    Loading products...
+                </div>
+            )}
+            {error && !loading && (
+                <div className="py-10 text-center text-red-500 text-sm">{error}</div>
+            )}
+            {!loading && !error && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {products.map((product) => (
+                        <ProductCard key={product._id || product.id} product={product} />
+                    ))}
+                </div>
+            )}
 
             {/* Pagination */}
             <div className="mt-12 flex items-center justify-center gap-2">

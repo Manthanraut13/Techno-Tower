@@ -1,9 +1,28 @@
 import { TowerControl, Mail, Lock, Eye, EyeOff, CheckCircle2, Phone, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { login, error } = useAuth();
+
+    const from = location.state?.from?.pathname || '/admin';
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        const result = await login(email, password);
+        setSubmitting(false);
+        if (result.success) {
+            navigate(from, { replace: true });
+        }
+    };
 
     return (
         <div className="flex flex-col min-h-screen font-display bg-white dark:bg-gray-950 text-[#1c160d] dark:text-gray-100 overflow-x-hidden">
@@ -54,7 +73,7 @@ const Login = () => {
                             <p className="mt-2 text-sm text-text-muted dark:text-gray-400">Secure access for authorized personnel</p>
                         </div>
 
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label className="block text-sm font-semibold text-text-main dark:text-gray-200 mb-2" htmlFor="email">Email Address</label>
                                 <div className="relative rounded-md shadow-sm">
@@ -68,6 +87,8 @@ const Login = () => {
                                         placeholder="name@technotower.com"
                                         required
                                         type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -85,6 +106,8 @@ const Login = () => {
                                         placeholder="••••••••"
                                         required
                                         type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                     <div
                                         className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer group"
@@ -108,12 +131,18 @@ const Login = () => {
                                 </div>
                             </div>
 
+                            {error && (
+                                <div className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg px-3 py-2">
+                                    {error}
+                                </div>
+                            )}
+
                             <div>
                                 <button className="group relative flex w-full justify-center rounded-lg bg-primary px-4 py-3 text-sm font-bold text-text-main hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5" type="submit">
                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Lock size={20} className="text-text-main/70" />
                                     </span>
-                                    Secure Login
+                                    {submitting ? 'Signing in...' : 'Secure Login'}
                                 </button>
                             </div>
                         </form>

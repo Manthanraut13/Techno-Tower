@@ -1,9 +1,27 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import Sidebar from '../admin/Sidebar';
 import AdminHeader from '../admin/AdminHeader';
 import AdminFooter from '../layout/AdminFooter';
+import { useAuth } from '../../context/AuthContext';
 
 const AdminLayout = () => {
+    const { user, loading } = useAuth();
+    const location = useLocation();
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-white dark:bg-[#1c160d]">
+                <div className="text-center text-gray-500 dark:text-gray-300">
+                    Checking admin access...
+                </div>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return <Navigate to="/admin/login" replace state={{ from: location }} />;
+    }
+
     return (
         <div className="flex min-h-screen bg-white dark:bg-[#1c160d]">
             {/* Persistent Sidebar */}

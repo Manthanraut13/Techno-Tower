@@ -1,6 +1,7 @@
 
+import { useEffect, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { getProductBySlug } from '../../data/productsData';
+import api from '../../services/api';
 import Breadcrumbs from '../../components/public/product-detail/Breadcrumbs';
 import ProductGallery from '../../components/public/product-detail/ProductGallery';
 import ProductInfo from '../../components/public/product-detail/ProductInfo';
@@ -11,10 +12,55 @@ import DownloadsCertifications from '../../components/public/product-detail/Down
 
 const ProductDetail = () => {
     const { slug } = useParams();
-    const product = getProductBySlug(slug);
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    if (!product) {
+    useEffect(() => {
+        let isMounted = true;
+        const fetchProduct = async () => {
+            try {
+                const res = await api.get(`/products/${slug}`);
+                if (!isMounted) return;
+                setProduct(res.data);
+                setError(null);
+            } catch (err) {
+                console.error('Failed to load product', err);
+                if (err.response?.status === 404) {
+                    setError('not_found');
+                } else {
+                    setError('Failed to load product details.');
+                }
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+        fetchProduct();
+        return () => {
+            isMounted = false;
+        };
+    }, [slug]);
+
+    if (!loading && error === 'not_found') {
         return <Navigate to="/products" replace />;
+    }
+
+    if (loading || !product) {
+        return (
+            <div className="bg-white dark:bg-gray-950 min-h-screen flex items-center justify-center">
+                <p className="text-gray-500 dark:text-gray-300">
+                    {loading ? 'Loading product...' : 'Preparing product details...'}
+                </p>
+            </div>
+        );
+    }
+
+    if (error && error !== 'not_found') {
+        return (
+            <div className="bg-white dark:bg-gray-950 min-h-screen flex items-center justify-center">
+                <p className="text-red-500 text-sm">{error}</p>
+            </div>
+        );
     }
 
     return (

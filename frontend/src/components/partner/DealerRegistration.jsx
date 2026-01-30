@@ -1,6 +1,74 @@
+import { useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
+import api from '../../services/api';
 
 const DealerRegistration = () => {
+    const [form, setForm] = useState({
+        businessName: '',
+        gstNumber: '',
+        contactName: '',
+        email: '',
+        phone: '',
+        region: '',
+        interests: []
+    });
+    const [submitting, setSubmitting] = useState(false);
+    const [status, setStatus] = useState(null);
+
+    const handleChange = (field) => (e) => {
+        setForm((prev) => ({ ...prev, [field]: e.target.value }));
+    };
+
+    const toggleInterest = (id) => {
+        setForm((prev) => {
+            const exists = prev.interests.includes(id);
+            return {
+                ...prev,
+                interests: exists
+                    ? prev.interests.filter((x) => x !== id)
+                    : [...prev.interests, id]
+            };
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        setStatus(null);
+        try {
+            await api.post('/dealers/applications', {
+                name: form.businessName,
+                companyDetails: `GST: ${form.gstNumber}`,
+                contactPerson: form.contactName,
+                email: form.email,
+                phone: form.phone,
+                region: form.region,
+                capabilities: form.interests
+            });
+            setStatus({
+                type: 'success',
+                message: 'Thank you! Your dealer application has been submitted.'
+            });
+            setForm({
+                businessName: '',
+                gstNumber: '',
+                contactName: '',
+                email: '',
+                phone: '',
+                region: '',
+                interests: []
+            });
+        } catch (err) {
+            console.error('Failed to submit dealer application', err);
+            setStatus({
+                type: 'error',
+                message: 'Could not submit application. Please try again later.'
+            });
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <section className="py-24 bg-[#fcfaf8] dark:bg-[#1c160d] relative" id="register-form">
             {/* Decorative background */}
@@ -8,12 +76,12 @@ const DealerRegistration = () => {
 
             <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
                 <div className="bg-white dark:bg-[#2a2216] rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-white/5">
-                    <div className="px-6 py-8 sm:px-10 bg-[#1c160d] text-white">
+                    <div className="px-6 py-8 sm:px-10 bg-[#1c160d] text.white">
                         <h2 className="text-2xl font-bold">Become a Certified Dealer</h2>
                         <p className="mt-1 text-gray-400">Complete the form below to initiate your partnership application.</p>
                     </div>
 
-                    <form className="px-6 py-8 sm:px-10 space-y-8">
+                    <form className="px-6 py-8 sm:px-10 space-y-8" onSubmit={handleSubmit}>
                         {/* Step 1: Business Info */}
                         <div>
                             <h3 className="text-lg font-semibold text-[#1c160d] dark:text-white mb-4 flex items-center gap-2">
@@ -30,6 +98,8 @@ const DealerRegistration = () => {
                                             id="business-name"
                                             placeholder="Techno Infra Solutions Pvt Ltd"
                                             className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white"
+                                            value={form.businessName}
+                                            onChange={handleChange('businessName')}
                                         />
                                     </div>
                                 </div>
@@ -42,6 +112,8 @@ const DealerRegistration = () => {
                                             id="gst-number"
                                             placeholder="22AAAAA0000A1Z5"
                                             className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white"
+                                            value={form.gstNumber}
+                                            onChange={handleChange('gstNumber')}
                                         />
                                         <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                             <ShieldCheck className="text-gray-400" size={18} />
@@ -61,26 +133,53 @@ const DealerRegistration = () => {
                                 <div>
                                     <label htmlFor="contact-name" className="block text-sm font-medium leading-6 text-[#1c160d] dark:text-gray-300">Contact Person</label>
                                     <div className="mt-2">
-                                        <input type="text" name="contact-name" id="contact-name" className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white" />
+                                        <input
+                                            type="text"
+                                            name="contact-name"
+                                            id="contact-name"
+                                            className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white"
+                                            value={form.contactName}
+                                            onChange={handleChange('contactName')}
+                                        />
                                     </div>
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-[#1c160d] dark:text-gray-300">Email Address</label>
                                     <div className="mt-2">
-                                        <input type="email" name="email" id="email" className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white" />
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            id="email"
+                                            className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white"
+                                            value={form.email}
+                                            onChange={handleChange('email')}
+                                        />
                                     </div>
                                 </div>
                                 <div>
                                     <label htmlFor="phone" className="block text-sm font-medium leading-6 text-[#1c160d] dark:text-gray-300">Phone Number</label>
                                     <div className="mt-2">
-                                        <input type="tel" name="phone" id="phone" className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white" />
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            id="phone"
+                                            className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white"
+                                            value={form.phone}
+                                            onChange={handleChange('phone')}
+                                        />
                                     </div>
                                 </div>
                                 <div>
                                     <label htmlFor="region" className="block text-sm font-medium leading-6 text-[#1c160d] dark:text-gray-300">Preferred Region</label>
                                     <div className="mt-2">
-                                        <select id="region" name="region" className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white">
-                                            <option>Select a region</option>
+                                        <select
+                                            id="region"
+                                            name="region"
+                                            className="block w-full rounded-md border-0 py-2.5 text-[#1c160d] shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-[#f4a825] sm:text-sm sm:leading-6 dark:bg-white/5 dark:ring-white/10 dark:text-white pl-3 bg-white"
+                                            value={form.region}
+                                            onChange={handleChange('region')}
+                                        >
+                                            <option value="">Select a region</option>
                                             <option>North Zone (Delhi/NCR, Punjab)</option>
                                             <option>West Zone (Maharashtra, Gujarat)</option>
                                             <option>South Zone (Karnataka, Tamil Nadu)</option>
@@ -98,16 +197,55 @@ const DealerRegistration = () => {
                                 Product Interest
                             </h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <CheckBoxItem id="light-poles" label="Light Poles" description="Octagonal, Conical, Swaged" />
-                                <CheckBoxItem id="smart-lighting" label="Smart Lighting" description="IoT Controllers, LED Modules" />
-                                <CheckBoxItem id="high-masts" label="High Masts" description="Stadiums, Plazas, Roundabouts" />
-                                <CheckBoxItem id="accessories" label="Accessories" description="Brackets, Foundations, Cables" />
+                                <CheckBoxItem
+                                    id="light-poles"
+                                    label="Light Poles"
+                                    description="Octagonal, Conical, Swaged"
+                                    checked={form.interests.includes('light-poles')}
+                                    onChange={() => toggleInterest('light-poles')}
+                                />
+                                <CheckBoxItem
+                                    id="smart-lighting"
+                                    label="Smart Lighting"
+                                    description="IoT Controllers, LED Modules"
+                                    checked={form.interests.includes('smart-lighting')}
+                                    onChange={() => toggleInterest('smart-lighting')}
+                                />
+                                <CheckBoxItem
+                                    id="high-masts"
+                                    label="High Masts"
+                                    description="Stadiums, Plazas, Roundabouts"
+                                    checked={form.interests.includes('high-masts')}
+                                    onChange={() => toggleInterest('high-masts')}
+                                />
+                                <CheckBoxItem
+                                    id="accessories"
+                                    label="Accessories"
+                                    description="Brackets, Foundations, Cables"
+                                    checked={form.interests.includes('accessories')}
+                                    onChange={() => toggleInterest('accessories')}
+                                />
                             </div>
                         </div>
 
                         <div className="pt-4 border-t border-gray-100 dark:border-white/10">
-                            <button type="submit" className="flex w-full justify-center rounded-lg bg-[#f4a825] px-3 py-3 text-sm font-bold leading-6 text-[#1c160d] shadow-sm hover:bg-[#d68e1a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f4a825] transition-colors">
-                                Submit Application
+                            {status && (
+                                <div
+                                    className={`mb-3 text-sm rounded-lg px-3 py-2 ${
+                                        status.type === 'success'
+                                            ? 'bg-green-50 text-green-700 border border-green-200'
+                                            : 'bg-red-50 text-red-600 border border-red-200'
+                                    }`}
+                                >
+                                    {status.message}
+                                </div>
+                            )}
+                            <button
+                                type="submit"
+                                disabled={submitting}
+                                className="flex w-full justify-center rounded-lg bg-[#f4a825] px-3 py-3 text-sm font-bold leading-6 text-[#1c160d] shadow-sm hover:bg-[#d68e1a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f4a825] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                            >
+                                {submitting ? 'Submitting...' : 'Submit Application'}
                             </button>
                         </div>
                     </form>
@@ -117,7 +255,7 @@ const DealerRegistration = () => {
     );
 };
 
-const CheckBoxItem = ({ id, label, description }) => (
+const CheckBoxItem = ({ id, label, description, checked, onChange }) => (
     <div className="relative flex items-start">
         <div className="flex h-6 items-center">
             <input
@@ -125,6 +263,8 @@ const CheckBoxItem = ({ id, label, description }) => (
                 name={id}
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-300 text-[#f4a825] focus:ring-[#f4a825] bg-transparent dark:border-white/20"
+                checked={checked}
+                onChange={onChange}
             />
         </div>
         <div className="ml-3 text-sm leading-6">
